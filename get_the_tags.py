@@ -1,40 +1,61 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
+import os
 import logging
 
-parser = argparse.ArgumentParser(description='Get the tags!')
-parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], help="Set the logging level")
-parser.add_argument("--ref", dest="github_ref_name")
-parser.add_argument("--repo", dest="github_repository")
+def determine_tags(image: str, version: str) -> set[str]:
+    """
+    >>> determine_tags('ghcr.io/example.com', 'v1.2.3')
+    {'ghcr.io/example.com:1.2.3', 'ghcr.io/example.com:latest'}
+    >>> determine_tags('ghcr.io/example.com', 'main')
+    {'ghcr.io/example.com:development'}
+    >>> determine_tags('ghcr.io/example.com', 'master')
+    {'ghcr.io/example.com:development'}
+    """
 
-args = parser.parse_args()
+    tags = set()
 
-if args.logLevel:
-  logging.basicConfig(level=getattr(logging, args.logLevel))
+    if version.startswith('v'):
+        version = version.replace("v", "")
+        tags.add(f"{image}:latest")
+    elif version in ('main', 'master'):
+        version = "development"
 
-logging.debug(f'ARGS: {args}')
+    logging.debug('Version: %s', version)
 
-image = f'ghcr.io/{args.github_repository}'
-logging.debug(f'Image : {image}')
+    tags.add(f"{image}:{version}")
 
-tags = set()
-version = args.github_ref_name
+    logging.debug('Tags: %s', tags)
+    return tags
 
-if version.startswith('v'):
-  version = args.github_ref_name.replace("v", "")
-  tags.add(f"{image}:latest")
 
-if version == 'main':
-  version = "development"
+def main():
 
-logging.debug(f'Version: {version}')
+    parser = argparse.ArgumentParser(description='Get the tags!')
+    parser.add_argument("-l", "--log", dest="log_level",
+                        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
+                        help="Set the logging level")
+    parser.add_argument("--ref", dest="github_ref_name")
+    parser.add_argument("--repo", dest="github_repository")
 
-tags.add(f"{image}:{version}")
-tags = ",".join(sorted(list(tags)))
+    args = parser.parse_args()
 
-logging.debug(f'Tags: {tags}')
+    if args.log_level:
+        logging.basicConfig(level=getattr(logging, args.log_level))
 
-with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-  print(f'tags={tags}', file=fh)
+    logging.debug('ARGS: %s', args)
+
+    image = f'ghcr.io/{args.github_repository}'
+    logging.debug('Image : %s', image)
+
+    version = args.github_ref_name
+
+    tags = determine_tags(image, version)
+
+    with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as output:
+        output.write(f'tags={",".join(sorted(tags))}')
+
+
+if __name__ == '__main__':
+    main()
