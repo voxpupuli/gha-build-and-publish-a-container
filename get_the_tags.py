@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import argparse
 import logging
-
 
 parser = argparse.ArgumentParser(description='Get the tags!')
 parser.add_argument("-l", "--log", dest="logLevel", choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], help="Set the logging level")

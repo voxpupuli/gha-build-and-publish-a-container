@@ -31,7 +31,7 @@ runs:
         username: ${{ github.repository_owner }}
         password: ${{ inputs.github_token }}
 
-    - name: the the tags
+    - name: Get the tags
       shell: bash
       run: ${{ github.action_path }}/get_the_tags.py --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" --log DEBUG
       id: tags
