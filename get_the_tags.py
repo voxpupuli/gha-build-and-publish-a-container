@@ -12,14 +12,14 @@ parser.add_argument("--repo", dest="github_repository")
 args = parser.parse_args()
 
 if args.logLevel:
-    logging.basicConfig(level=getattr(logging, args.logLevel))
+  logging.basicConfig(level=getattr(logging, args.logLevel))
 
 logging.debug(f'ARGS: {args}')
 
-image   = f'ghcr.io/{args.github_repository}'
+image = f'ghcr.io/{args.github_repository}'
 logging.debug(f'Image : {image}')
 
-tags    = set()
+tags = set()
 version = args.github_ref_name
 
 if version.startswith('v'):
