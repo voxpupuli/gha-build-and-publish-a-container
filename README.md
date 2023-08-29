@@ -18,3 +18,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
           build_arch: linux/amd64,linux/arm64
 ```
+
+# Behavior
+
+The `main`-branch will always be tagged with the `development` container-tag.
+If one does a git-tag like `v1.0.0` this will also be a container-tag.
+The last git-tag also will be tagged with the `latest` container-tag.
