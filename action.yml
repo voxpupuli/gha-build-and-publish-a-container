@@ -58,7 +58,7 @@ runs:
 
     - name: the the tags
       shell: python
-      run: ${{ github.action_path }}/get_the_tags.py ${{ github.repository }} ${{ github.ref_name }}
+      run: ${{ github.action_path }}/get_the_tags.py "${{ github.repository }}" "${{ github.ref_name }}"
       id: tags
 
     - name: Build and push
