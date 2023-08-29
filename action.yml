@@ -6,6 +6,9 @@ inputs:
     description: What arch to build for. Comma seperated list
     default: linux/amd64
     required: true
+  github_token:
+    description: The Github Auth Token
+    required: true
 
 runs:
   using: "composite"
@@ -26,7 +29,7 @@ runs:
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.github_token }}
 
     - name: Get tags
       shell: python
