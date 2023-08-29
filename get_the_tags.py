@@ -26,7 +26,7 @@ if version.startswith('v'):
   version = args.github_ref_name.replace("v", "")
   tags.add(f"{image}:latest")
 
-if version == 'main':
+if version == 'main' or version == 'master':
   version = "development"
 
 logging.debug(f'Version: {version}')
