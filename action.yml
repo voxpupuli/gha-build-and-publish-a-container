@@ -31,33 +31,8 @@ runs:
         username: ${{ github.repository_owner }}
         password: ${{ inputs.github_token }}
 
-    # - name: Get tags
-    #   shell: python
-    #   run: |
-    #     import re
-    #     import os
-    #     from packaging.version import parse
-
-    #     image   = "ghcr.io/${{ github.repository }}"
-    #     tags    = set()
-    #     version = "${{ github.ref_name }}"
-
-    #     if version.startswith('v'):
-    #       version = "${{ github.ref_name }}".replace("v", "")
-    #       tags.add(f"{image}:latest")
-
-    #     if version == 'main':
-    #       version = "development"
-
-    #     tags.add(f"{image}:{version}")
-    #     tags = ",".join(sorted(list(tags)))
-
-    #     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
-    #       print(f'tags={tags}', file=fh)
-    #   id: tags
-
     - name: the the tags
-      shell: python
+      shell: bash
       run: ${{ github.action_path }}/get_the_tags.py --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" --log DEBUG
       id: tags
 
