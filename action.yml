@@ -5,7 +5,9 @@ inputs:
   build_arch:
     description: What arch to build for. Comma seperated list
     default: linux/amd64
-    required: true
+  dockerfile:
+    description: What Dockerfile to use. Defaults to Dockerfile.
+    default: Dockerfile
   github_token:
     description: The Github Auth Token
     required: true
@@ -45,3 +47,4 @@ runs:
         platforms: ${{ inputs.build_arch }}
         push: true
         tags: ${{ steps.tags.outputs.tags }}
+        file: ${{ inputs.dockerfile }}
