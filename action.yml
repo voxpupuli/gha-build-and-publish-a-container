@@ -48,6 +48,6 @@ runs:
         # see https://github.com/docker/build-push-action/issues/820
         provenance: false
         platforms: ${{ inputs.build_arch }}
-        push: ${{ if inputs.publish == 'true' }}
+        push: ${{ inputs.publish == 'true' }}
         tags: ${{ steps.tags.outputs.tags }}
         file: ${{ inputs.dockerfile }}
