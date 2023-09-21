@@ -13,12 +13,30 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: voxpupuli/gha-build-and-publish-a-container@main
+      - name: Build and publish a container
+        uses: voxpupuli/gha-build-and-publish-a-container@v1
         with:
           github_token: ${{ secrets.github_token }}
           build_arch: linux/amd64,linux/arm64  # Optional, Default: linux/amd64
           dockerfile: Dockerfile.something # Optional, Default: Dockerfile
           publish: 'false'  # Optional, Default: 'true'
+```
+
+Test container build in ci:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+    - name: Test container build
+      uses: voxpupuli/gha-build-and-publish-a-container@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish: 'false'
 ```
 
 # Behavior
