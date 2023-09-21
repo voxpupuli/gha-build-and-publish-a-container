@@ -16,7 +16,8 @@ jobs:
       - uses: voxpupuli/gha-build-and-publish-a-container@main
         with:
           github_token: ${{ secrets.github_token }}
-          build_arch: linux/amd64,linux/arm64
+          build_arch: linux/amd64,linux/arm64  # Optional, Default: linux/amd64
+          dockerfile: Dockerfile.something # Optional, Default: Dockerfile
 ```
 
 # Behavior
