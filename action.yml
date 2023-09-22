@@ -5,8 +5,8 @@ inputs:
   build_arch:
     description: What arch to build for. Comma seperated list
     default: linux/amd64
-  dockerfile:
-    description: What Dockerfile to use. Defaults to Dockerfile.
+  buildfile:
+    description: What Container/Dockerfile to use for the build. Defaults to Dockerfile.
     default: Dockerfile
   github_token:
     description: The Github Auth Token
@@ -53,4 +53,4 @@ runs:
         push: ${{ inputs.publish == 'true' }}
         # if publish is false, tag as test, otherwise use the tags from the previous step
         tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
-        file: ${{ inputs.dockerfile }}
+        file: ${{ inputs.buildfile }}
