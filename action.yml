@@ -11,6 +11,9 @@ inputs:
   github_token:
     description: The Github Auth Token
     required: true
+  publish:
+    description: Whether to publish the container or not
+    default: 'true'
 
 runs:
   using: "composite"
@@ -28,6 +31,7 @@ runs:
 
     - name: Log in to the Container registry
       uses: docker/login-action@v3
+      if: ${{ inputs.publish == 'true' }}
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
@@ -35,6 +39,7 @@ runs:
 
     - name: Get the tags
       shell: bash
+      if: ${{ inputs.publish == 'true' }}
       run: ${{ github.action_path }}/get_the_tags.py --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" --log DEBUG
       id: tags
 
@@ -45,6 +50,7 @@ runs:
         # see https://github.com/docker/build-push-action/issues/820
         provenance: false
         platforms: ${{ inputs.build_arch }}
-        push: true
-        tags: ${{ steps.tags.outputs.tags }}
+        push: ${{ inputs.publish == 'true' }}
+        # if publish is false, tag as test, otherwise use the tags from the previous step
+        tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
         file: ${{ inputs.dockerfile }}
