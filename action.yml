@@ -3,16 +3,18 @@ description: 'GHA to build and publish a 🛢️ container'
 
 inputs:
   build_arch:
-    description: What arch to build for. Comma seperated list
+    description: What arch to build for. Comma seperated list.
     default: linux/amd64
+  build_args:
+    description: Build args to pass to the build. This is a string of key=value pairs seperated by a space.
   buildfile:
     description: What Container/Dockerfile to use for the build. Defaults to Dockerfile.
     default: Dockerfile
   github_token:
-    description: The Github Auth Token
+    description: The Github Auth Token.
     required: true
   publish:
-    description: Whether to publish the container or not
+    description: Whether to publish the container or not.
     default: 'true'
 
 runs:
@@ -54,3 +56,4 @@ runs:
         # if publish is false, tag as test, otherwise use the tags from the previous step
         tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
         file: ${{ inputs.buildfile }}
+        build-args: ${{ inputs.build_args }}
