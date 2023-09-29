@@ -13,9 +13,14 @@ inputs:
   github_token:
     description: The Github Auth Token.
     required: true
+  manual_tags:
+    description: A comma seperated list of tags to add to the container.
   publish:
     description: Whether to publish the container or not.
     default: 'true'
+  use_manual_tags:
+    description: Whether to use manual tags or not.
+    default: 'false'
 
 runs:
   using: "composite"
@@ -54,6 +59,6 @@ runs:
         platforms: ${{ inputs.build_arch }}
         push: ${{ inputs.publish == 'true' }}
         # if publish is false, tag as test, otherwise use the tags from the previous step
-        tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
+        tags: ${{ (inputs.publish == 'true' && use_manual_tags != 'true') && steps.tags.outputs.tags || inputs.use_manual_tags == 'true' && inputs.manual_tags || 'ci/test:dummy' }}
         file: ${{ inputs.buildfile }}
         build-args: ${{ inputs.build_args }}
