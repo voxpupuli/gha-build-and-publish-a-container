@@ -46,8 +46,14 @@ runs:
 
     - name: Get the tags
       shell: bash
-      if: ${{ inputs.publish == 'true' }}
+      if: ${{ inputs.publish == 'true' && inputs.use_manual_tags != 'true' }}
       run: ${{ github.action_path }}/get_the_tags.py --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" --log DEBUG
+      id: tags
+
+    - name: Set manual tags
+      shell: bash
+      if: ${{ inputs.publish == 'true' && inputs.use_manual_tags == 'true' }}
+      run: ${{ github.action_path }}/set_manual_tags.py --tags "${{ inputs.manual_tags }}" --log DEBUG
       id: tags
 
     - name: Build and push
@@ -59,6 +65,6 @@ runs:
         platforms: ${{ inputs.build_arch }}
         push: ${{ inputs.publish == 'true' }}
         # if publish is false, tag as test, otherwise use the tags from the previous step
-        tags: ${{ (inputs.publish == 'true' && inputs.use_manual_tags != 'true') && steps.tags.outputs.tags || inputs.use_manual_tags == 'true' && inputs.manual_tags || 'ci/test:dummy' }}
+        tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
         file: ${{ inputs.buildfile }}
         build-args: ${{ inputs.build_args }}
