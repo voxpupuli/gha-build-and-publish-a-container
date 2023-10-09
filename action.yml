@@ -10,12 +10,18 @@ inputs:
   buildfile:
     description: What Container/Dockerfile to use for the build. Defaults to Dockerfile.
     default: Dockerfile
-  github_token:
-    description: The Github Auth Token.
-    required: true
   publish:
     description: Whether to publish the container or not.
     default: 'true'
+  registry:
+    description: The registry to publish to.
+    default: ghcr.io
+  registry_username:
+    description: The username to use for the registry.
+    default: ${{ github.repository_owner }}
+  registry_password:
+    description: The password to use for the registry.
+    default: ${{ secrets.GITHUB_TOKEN }}
 
 runs:
   using: "composite"
@@ -35,9 +41,9 @@ runs:
       uses: docker/login-action@v3
       if: ${{ inputs.publish == 'true' }}
       with:
-        registry: ghcr.io
-        username: ${{ github.repository_owner }}
-        password: ${{ inputs.github_token }}
+        registry: ${{ inputs.registry }}
+        username: ${{ inputs.registry_username }}
+        password: ${{ inputs.registry_password }}
 
     - name: Get the tags
       shell: bash
