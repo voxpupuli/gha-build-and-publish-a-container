@@ -21,7 +21,7 @@ inputs:
     default: ${{ github.repository_owner }}
   registry_password:
     description: The password to use for the registry.
-    default: ${{ secrets.GITHUB_TOKEN }}
+    required: true
 
 runs:
   using: "composite"
