@@ -18,7 +18,7 @@ jobs:
         with:
           registry: docker.io                 # Default: ghcr.io
           registry_username: foobar           # Default: github.repository_owner
-          registry_password: "P4SSw0rd!"      # Default: secrets.GITHUB_TOKEN
+          registry_password: "P4SSw0rd!"      # No default, for github set it to ${{ secrets.GITHUB_TOKEN }}
           build_arch: linux/amd64,linux/arm64 # Default: linux/amd64
           build_args: 'PUPPET_VERSION=8'      # No default
           buildfile: Dockerfile.something     # Default: Dockerfile
