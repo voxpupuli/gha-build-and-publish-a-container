@@ -21,6 +21,7 @@ inputs:
     default: ${{ github.repository_owner }}
   registry_password:
     description: The password to use for the registry.
+    required: true
 
 runs:
   using: "composite"
@@ -42,7 +43,7 @@ runs:
       with:
         registry: ${{ inputs.registry }}
         username: ${{ inputs.registry_username }}
-        password: ${{ inputs.registry_password != '' && inputs.registry_password || secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.registry_password }}
 
     - name: Get the tags
       shell: bash
