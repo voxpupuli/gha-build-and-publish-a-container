@@ -20,7 +20,9 @@ jobs:
           registry_username: foobar           # Default: github.repository_owner
           registry_password: "P4SSw0rd!"      # No default, for github set it to ${{ secrets.GITHUB_TOKEN }}
           build_arch: linux/amd64,linux/arm64 # Default: linux/amd64
-          build_args: 'PUPPET_VERSION=8'      # No default
+          build_args: |                       # No Default, can be empty
+            PUPPET_VERSION=8.2.0
+            PUPPET_RELEASE=8
           build_context: 'puppetdb'           # Default: .
           buildfile: Dockerfile.something     # Default: Dockerfile
           publish: 'false'                    # Default: 'true'
