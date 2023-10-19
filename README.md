@@ -59,4 +59,4 @@ The last git-tag also will be tagged with the `latest` container-tag.
 
 If you specify a docker_username and a docker_password, the action will do a second registry login.
 It will then automatically also log in to docker.io and on push the image gets published on your
-primary registry and additionally on hub.docker.com.
+primary registry and additionally to hub.docker.com.
