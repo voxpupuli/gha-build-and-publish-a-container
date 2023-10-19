@@ -26,6 +26,8 @@ jobs:
           build_context: 'puppetdb'           # Default: .
           buildfile: Dockerfile.something     # Default: Dockerfile
           publish: 'false'                    # Default: 'true'
+          docker_username: 'someone'          # No default
+          docker_password: 'docker hub pass'  # No default
 ```
 
 Test container build in ci:
@@ -47,6 +49,14 @@ jobs:
 
 # Behavior
 
+## Tagging
+
 The `main`-branch will always be tagged with the `development` container-tag.
 If one does a git-tag like `v1.0.0` this will translate into `1.0.0` container-tag.
 The last git-tag also will be tagged with the `latest` container-tag.
+
+## Push to hub.docker.com
+
+If you specify a docker_username and a docker_password, the action will do a second registry login.
+It will then automatically also log in to docker.io and on push the image gets published on your
+primary registry and additionally on hub.docker.com.
