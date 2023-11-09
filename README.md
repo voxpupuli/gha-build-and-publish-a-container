@@ -29,10 +29,10 @@ jobs:
           docker_username: 'someone'          # No default, can be empty
           docker_password: 'docker hub pass'  # No default, can be empty
           tags: |                             # No default, can be empty
-            docker.io/${{ env.REPOSITORY }}:3.2
-            docker.io/${{ env.REPOSITORY }}:latest
-            ghcr.io/${{ env.REPOSITORY }}:3.2
-            ghcr.io/${{ env.REPOSITORY }}:latest
+            docker.io/${{ github.repository }}:3.2
+            docker.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:3.2
+            ghcr.io/${{ github.repository }}:latest
 ```
 
 Test container build in ci:
