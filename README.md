@@ -14,7 +14,7 @@ jobs:
       packages: write
     steps:
       - name: Build and publish a container
-        uses: voxpupuli/gha-build-and-publish-a-container@v1
+        uses: voxpupuli/gha-build-and-publish-a-container@v2
         with:
           registry: docker.io                 # Default: ghcr.io
           registry_username: foobar           # Default: github.repository_owner
@@ -26,8 +26,13 @@ jobs:
           build_context: 'puppetdb'           # Default: .
           buildfile: Dockerfile.something     # Default: Dockerfile
           publish: 'false'                    # Default: 'true'
-          docker_username: 'someone'          # No default
-          docker_password: 'docker hub pass'  # No default
+          docker_username: 'someone'          # No default, can be empty
+          docker_password: 'docker hub pass'  # No default, can be empty
+          tags: |                             # No default, can be empty
+            docker.io/${{ env.REPOSITORY }}:3.2
+            docker.io/${{ env.REPOSITORY }}:latest
+            ghcr.io/${{ env.REPOSITORY }}:3.2
+            ghcr.io/${{ env.REPOSITORY }}:latest
 ```
 
 Test container build in ci:
@@ -41,10 +46,11 @@ jobs:
       packages: read
     steps:
     - name: Test container build
-      uses: voxpupuli/gha-build-and-publish-a-container@v1
+      uses: voxpupuli/gha-build-and-publish-a-container@v2
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish: 'false'
+        tags: ci/test:dummy
 ```
 
 # Behavior
