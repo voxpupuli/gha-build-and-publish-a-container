@@ -29,6 +29,8 @@ inputs:
     description: The username to use for the docker registry.
   docker_password:
     description: The password to use for the docker registry.
+  tags:
+    description: The tags to use for the container. This is a string of tags seperated by a newline.
 
 runs:
   using: "composite"
@@ -62,7 +64,7 @@ runs:
 
     - name: Get the tags
       shell: bash
-      if: ${{ inputs.publish == 'true' }}
+      if: ${{ inputs.publish == 'true' && inputs.tags == '' }}
       run: ${{ github.action_path }}/get_the_tags.py --repo "${{ github.repository }}" --ref "${{ github.ref_name }}" --log DEBUG
       id: tags
 
@@ -75,6 +77,6 @@ runs:
         platforms: ${{ inputs.build_arch }}
         push: ${{ inputs.publish == 'true' }}
         # if publish is false, tag as test, otherwise use the tags from the previous step
-        tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || 'ci/test:dummy' }}
+        tags: ${{ inputs.publish == 'true' && steps.tags.outputs.tags || inputs.tags }}
         file: ${{ inputs.buildfile }}
         build-args: ${{ inputs.build_args }}
