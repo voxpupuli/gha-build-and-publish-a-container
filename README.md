@@ -48,7 +48,7 @@ jobs:
     - name: Test container build
       uses: voxpupuli/gha-build-and-publish-a-container@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        registry_password: ${{ secrets.GITHUB_TOKEN }}
         publish: 'false'
         tags: ci/test:dummy
 ```
