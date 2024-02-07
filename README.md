@@ -53,9 +53,9 @@ jobs:
         tags: ci/test:dummy
 ```
 
-# Behavior
+## Behavior
 
-## Tagging
+### Tagging
 
 The git `main`-branch will automatically be tagged with the `development` container-tag, if no custom tags are supplied.
 If one does a git-tag like `v1.0.0` this will translate into `1.0.0` container-tag.
@@ -64,12 +64,13 @@ If custom tags are supplied, this rules are not valid anymore.
 The tags which are supplied will then be used. The tags have to be supplied in a newline seperated list.
 The format is: `registry/user/repo:tag-name`.
 
-## Push to hub.docker.com
+### Push to hub.docker.com
 
 If you specify a docker_username and a docker_password, the action will do a second registry login.
 It will then automatically also log in to docker.io. To push images to docker.io you have to add tags with the docker.io registry path in front.
 
 f.e.:
+
 ```yaml
 tags: |
   ghcr.io/${{ github.repository }}:${{ github.ref_name }}-${{ matrix.release }}
