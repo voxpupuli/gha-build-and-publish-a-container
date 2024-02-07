@@ -1,6 +1,10 @@
 name: Build and publish a 🛢️ container
 description: 'GHA to build and publish a 🛢️ container'
 
+branding:
+  icon: archive
+  color: green
+
 inputs:
   build_arch:
     description: What arch to build for. Comma seperated list.
