@@ -80,7 +80,7 @@ runs:
       id: tags
 
     - name: Build and push
-      uses: docker/build-push-action@v6
+      uses: docker/build-push-action@v7
       with:
         build-args: ${{ inputs.build_args }}
         context: ${{ inputs.build_context }}
